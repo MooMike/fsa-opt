@@ -50,7 +50,6 @@ namespace fsa {
 	}
 
 	long problem::r() {
-
 		// Generate a number between 0 and Tmax
 		long r = rand();
 		return r % Tmax;
