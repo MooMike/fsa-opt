@@ -12,13 +12,14 @@ namespace fsa {
 		virtual void reject_move() = 0;
 
 		private:
-		long Tmax = 1000000;
-		long Tstart = Tmax / 2;
-		long dT = 1;
+		double Tmax = 100000.0;
+		long kstart = 1000;
 		std::mt19937_64 rnd_gen = std::mt19937_64();
-		std::uniform_int_distribution<long> rnd_dist = std::uniform_int_distribution<long>(1, Tmax);
-		long r();
-		void sr(long seed);
+		std::uniform_real_distribution<double> rnd_dist = std::uniform_real_distribution<double>(1, Tmax);
+		inline bool accept(long old_cost, long new_cost, long k, double Tmax);
+		inline double T(long k);
+		inline double r();
+		inline void sr(long seed);
 	};
 }
 
