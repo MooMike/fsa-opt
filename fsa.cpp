@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <iostream>
-#include <cstdlib>
 
 using namespace std;
 
@@ -20,7 +19,7 @@ namespace fsa {
 		intervals[0] = 0L;
 		for (long i = 1; i <= NUM_INTERVALS; ++i) {
 			long j = NUM_INTERVALS - i;
-			intervals[i] = kstart - j * (kstart/NUM_INTERVALS);
+			intervals[i] = K - j * (K/NUM_INTERVALS);
 		}
 
 		for (long i = 0; i < NUM_INTERVALS; i++) {
@@ -41,7 +40,7 @@ namespace fsa {
 				cost = new_cost;
 			}
 		
-			std::cout << "Intermediate cost @" << k << ": " << cost << endl;
+			std::cout << "Intermediate cost @" << kmax << ": " << cost << endl;
 		}
 
 		std::cout << "End cost: " << cost << endl;
@@ -52,7 +51,7 @@ namespace fsa {
 		if (new_cost < old_cost)
 			return true;
 
-		return r() <= exp(-(new_cost - old_cost) * T(k));
+		return r() <= exp((old_cost - new_cost) * T(k));
 	}
 
 	inline

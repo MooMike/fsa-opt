@@ -1,6 +1,6 @@
 .PHONY: clean
 
-CLANG_FLAGS=-std=c++11 -O2
+CLANG_FLAGS+=-std=c++11 -O2
 
 test: test.cpp libfsa.a fsa.hpp
 	clang++ $(CLANG_FLAGS) -o $@ $< -L. -lfsa
