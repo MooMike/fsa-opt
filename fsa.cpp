@@ -6,33 +6,34 @@
 
 using namespace std;
 
+static const long NUM_INTERVALS = 10;
+
 namespace fsa {
 	void problem::solve() {
-		this->sr(1);
+		sr(1);
 
-		long cost = this->evaluate_function();
+		long cost = evaluate_function();
 
 		std::cout << "Start cost: " << cost << endl;
 
-		vector<long> intervals(10);
-		for (long i = 0; i < 10; ++i) {
-			intervals[i] = this->Tstart - i * (this->Tstart/10);
+		vector<long> intervals(NUM_INTERVALS+1);
+		for (long i = 0; i < NUM_INTERVALS; ++i) {
+			intervals[i] = Tstart - i * (Tstart/NUM_INTERVALS);
 		}
+		intervals[NUM_INTERVALS] = 0L;
 
-		for (long i = 0; i < intervals.size(); i++) {
+		for (long i = 0; i < NUM_INTERVALS; i++) {
 			long T = intervals[i];
-			long Tmin = 0;
-			if (i < intervals.size())
-				Tmin = intervals[i+1];
+			long Tmin = intervals[i+1];
 
 			std::cout << "Calculating interval " << T << " -> " << Tmin << endl;
 			for (; T > Tmin; --T) {
-				this->make_move();
+				make_move();
 	
-				long new_cost = this->evaluate_function();
+				long new_cost = evaluate_function();
 
-				if (new_cost > cost && this->r() > T) {	
-					this->reject_move();
+				if (new_cost > cost && r() > T) {	
+					reject_move();
 					new_cost = cost;
 				}
 
@@ -46,13 +47,12 @@ namespace fsa {
 	}
 
 	void problem::sr(long seed) {
-		srand(seed);
+		rnd_gen.seed(seed);
 	}
 
 	long problem::r() {
-		// Generate a number between 0 and Tmax
-		long r = rand();
-		return r % Tmax;
+		// Generate a number between 1 and Tmax
+		return rnd_dist(rnd_gen);
 	}
 }
 
